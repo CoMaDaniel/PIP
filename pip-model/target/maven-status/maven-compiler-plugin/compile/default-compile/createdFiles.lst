@@ -1,0 +1,4 @@
+org\yonder\entity\User.class
+org\yonder\entity\Address.class
+org\yonder\entity\Person.class
+org\yonder\utils\EntityManagerUtil.class

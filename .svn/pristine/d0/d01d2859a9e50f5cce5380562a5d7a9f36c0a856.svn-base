@@ -1,0 +1,100 @@
+package org.yonder.view;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
+import org.yonder.model.AddressModel;
+import org.yonder.model.PersonModel;
+import org.yonder.model.TestService;
+
+@ManagedBean(name = "personView")
+@ViewScoped
+public class PersonView {
+
+	private List<PersonModel> persons;
+	private List<AddressModel> addresses;
+	@ManagedProperty("#{person}")
+	private PersonModel person ;
+	private PersonModel selectedPerson;
+
+	@ManagedProperty("#{personTestService}")
+	private TestService testService;
+
+	@PostConstruct
+	public void init() {
+//		persons = testService.getAllPersons();
+	}
+	
+	public void addPerson() {
+		testService.savePerson(person);
+
+        person = new PersonModel();
+	}
+	
+	public void deletePerson() {
+		int personId = Integer.parseInt(selectedPerson.getId());
+		testService.deletePerson(personId);
+		persons.remove(selectedPerson);
+//		person = new PersonModel();
+		persons = testService.getAllPersons();
+	}
+	
+	public void updatePerson() {
+		int personId = Integer.parseInt(selectedPerson.getId());
+		testService.updatePerson(personId);
+		persons = testService.getAllPersons();
+	}
+
+	public PersonModel getPerson() {
+		return person;
+	}
+
+	public void setPerson(PersonModel person) {
+		this.person = person;
+	}
+
+	public List<PersonModel> getPersons() {
+		return testService.getAllPersons();
+	//	return persons;
+	}
+
+	public List<AddressModel> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressModel> addresses) {
+		this.addresses = addresses;
+	}
+
+	public void setTestService(TestService testService) {
+		this.testService = testService;
+	}
+
+	public PersonModel getSelectedPerson() {
+		return selectedPerson;
+	}
+
+	public void setSelectedPerson(PersonModel selectedPerson) {
+		this.selectedPerson = selectedPerson;
+	}
+	
+	public void onRowSelect(SelectEvent event) {
+        FacesMessage msg = new FacesMessage("Person Selected", ((PersonModel) event.getObject()).getId());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        setSelectedPerson(((PersonModel) event.getObject()));
+    }
+ 
+    public void onRowUnselect(UnselectEvent event) {
+        FacesMessage msg = new FacesMessage("Person Unselected", ((PersonModel) event.getObject()).getId());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+	
+}

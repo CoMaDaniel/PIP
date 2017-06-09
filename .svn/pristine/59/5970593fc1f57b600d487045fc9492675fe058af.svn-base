@@ -1,0 +1,26 @@
+package org.yonder.model;
+
+import javax.inject.Inject;
+
+import org.yonder.entity.Person;
+import org.yonder.service.PersonService;
+
+public class TestService {
+	
+	@Inject
+	private PersonService personService;
+	
+	public PersonModel getPersonByName(String name) {
+		
+		PersonModel person = new PersonModel();
+		
+		Person dbPerson = personService.getPersonByName(name);
+		
+		person.age = dbPerson.getAge();
+		person.name = dbPerson.getName();
+		person.occupation = dbPerson.getOccupation();
+		
+		return person;
+	}
+
+}

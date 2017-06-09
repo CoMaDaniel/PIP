@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog widgetVar="tableView" resizable="false">
+		<h:panelGroup id="personPanel">
+			<p:dataTable var="persons" value="#{personView.persons}"
+				selection="#{personView.selectedPerson}" rowKey="#{persons.id}"
+				style="margin-bottom:0">
+				<p:column selectionMode="single"
+					style="width:16px;text-align:center" />
+
+				<p:ajax event="rowSelectRadio" listener="#{personView.onRowSelect}"
+					update=":form:growl" />
+<!-- 				<p:ajax event="rowUnselectRadio" -->
+<!-- 					listener="#{personView.onRowUnselect}" update=":form:growl" /> -->
+				<p:column headerText="Name">
+					<h:outputText value="#{persons.name}" />
+				</p:column>
+
+				<p:column headerText="Age">
+					<h:outputText value="#{persons.age}" />
+				</p:column>
+
+				<p:column headerText="Occupation">
+					<h:outputText value="#{persons.occupation}" />
+				</p:column>
+
+				<p:column headerText="Address">
+
+					<ui:repeat var="address" value="#{persons.addresses}">
+						<h:outputText
+							value="#{address.streetName}, #{address.streetNumber}, #{address.city}" />
+						<br />
+					</ui:repeat>
+				</p:column>
+			</p:dataTable>
+		</h:panelGroup>
+		<f:facet name="footer">
+			<p:commandButton value="Add Person" id="addPersonBtn"
+				styleClass="ui-priority-primary"
+				oncomplete="PF('addPersonDialog').show();" />
+			<p:commandButton value="Edit Person" id="editPersonBtn"
+				oncomplete="PF('updatePersonDialog').show();" />
+		</f:facet>
+
+	</p:dialog>
+
+</ui:composition>

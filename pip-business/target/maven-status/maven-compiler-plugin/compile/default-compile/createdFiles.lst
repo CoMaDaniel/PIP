@@ -1,0 +1,11 @@
+org\yonder\service\AddressServiceImpl.class
+org\yonder\service\GenericServiceImpl.class
+org\yonder\model\UserModel.class
+org\yonder\service\PersonService.class
+org\yonder\service\AddressService.class
+org\yonder\service\UserServiceImpl.class
+org\yonder\model\AddressModel.class
+org\yonder\service\PersonServiceImpl.class
+org\yonder\model\PersonModel.class
+org\yonder\service\UserService.class
+org\yonder\service\GenericService.class

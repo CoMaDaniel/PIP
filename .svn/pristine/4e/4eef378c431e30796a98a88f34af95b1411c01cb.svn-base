@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+		<p:dialog header="AddPerson" widgetVar="addPersonDialog"
+			resizable="false">
+			<h:panelGrid columns="2" cellpadding="5" var="person"
+				value="#{person}">
+				<p:outputLabel for="personName" value="Person Name:" />
+				<p:inputText id="personName" value="#{person.name}" />
+
+				<p:outputLabel value="Person Age:" />
+				<p:inputText id="personAge" value="#{person.age}" />
+
+				<p:outputLabel value="Person Occupation:" />
+				<p:inputText id="personOccupation" value="#{person.occupation}" />
+
+<!-- 				<p:outputLabel value="Person Addresses:" /> -->
+<!-- 				<br /> -->
+
+<!-- 				<p:outputLabel for="streetName" value="Street Name:" /> -->
+<!-- 				<p:inputText id="streetName" value="#{person.addresses.streetName}" /> -->
+
+<!-- 				<p:outputLabel for="streetNumber" value="Street Number:" /> -->
+<!-- 				<p:inputText id="streetNumber" -->
+<!-- 					value="#{person.addresses.streetNumber}" /> -->
+
+<!-- 				<p:outputLabel for="city" value="City:" /> -->
+<!-- 				<p:inputText id="city" value="#{person.addresses.city}" /> -->
+
+				<f:facet name="footer">
+					<p:commandButton id="savePersonButton" value="Save Person"
+						update="personPanel" action="#{personView.addPerson}"
+						onsuccess="PF('addPersonDialog').hide();">
+						<p:ajax immediate="true"
+							render="personName personAge personOccupation streetName streetNumber city"
+							execute="@form" />
+					</p:commandButton>
+				</f:facet>
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+
+</ui:composition>

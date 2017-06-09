@@ -1,0 +1,98 @@
+package org.yonder.model;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.inject.Inject;
+
+import org.yonder.entity.Address;
+import org.yonder.entity.Person;
+import org.yonder.service.PersonService;
+import org.yonder.service.PersonServiceImpl;
+
+@ManagedBean(name = "personTestService")
+@ApplicationScoped
+public class TestService {
+	
+	@Inject
+	private PersonService personService;
+	
+	public PersonModel getPersonByName(String name) {
+		
+		PersonModel person = new PersonModel();
+		
+		Person dbPerson = new Person();
+		
+		personService = new PersonServiceImpl();
+		dbPerson = personService.getPersonByName(name);
+		
+		person.age = dbPerson.getAge();
+		person.name = dbPerson.getName();
+		person.occupation = dbPerson.getOccupation();
+		
+		return person;
+	}
+	
+	public List<PersonModel> getAllPersons() {
+		List<PersonModel> persons = new ArrayList<PersonModel>();
+		
+		List<Person> dbPersons = new ArrayList<Person>();
+		
+		personService = new PersonServiceImpl();
+		
+		dbPersons = personService.getAllPersons();
+		
+		for (int i=0; i<dbPersons.size(); i++) {
+			persons.add(entityToModel(dbPersons.get(i)));
+		}
+		
+		return persons;
+	}
+	
+	public PersonModel getPersonById(int id) {
+		
+		PersonModel person = new PersonModel();
+		Person dbPerson = new Person();
+		
+		personService = new PersonServiceImpl();
+		
+		dbPerson = personService.getPersonById(id);
+		person = entityToModel(dbPerson);
+		
+		return person;
+		
+		
+	}
+	
+	public PersonModel entityToModel(Person dbPerson) {
+		
+		PersonModel personModel = new PersonModel();
+		
+		personModel.age = dbPerson.getAge();
+		personModel.name = dbPerson.getName();
+		personModel.occupation = dbPerson.getOccupation();
+		personModel.addresses = new ArrayList<AddressModel>();
+		Iterator<Address> iterator = dbPerson.getAddresses().iterator();
+		while (iterator.hasNext()) {
+			personModel.addresses.add(entityToModel(iterator.next()));
+		}
+		
+		return personModel;
+	}
+	
+	public AddressModel entityToModel(Address dbAddress) {
+		
+		AddressModel addressModel = new AddressModel();
+		
+		addressModel.streetName = dbAddress.getStreetName();
+		addressModel.streetNumber = dbAddress.getStreetNumber();
+		addressModel.city = dbAddress.getCity();
+		
+		return addressModel;
+	}
+
+}

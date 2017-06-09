@@ -1,0 +1,59 @@
+package org.yonder.view;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+
+import org.yonder.model.AddressModel;
+import org.yonder.model.PersonModel;
+import org.yonder.model.TestService;
+
+@ManagedBean(name = "personView")
+@ViewScoped
+public class PersonView {
+
+	private List<PersonModel> persons;
+	private List<AddressModel> addresses;
+	private PersonModel person;
+
+	@ManagedProperty("#{personTestService}")
+	private TestService testService;
+
+	@PostConstruct
+	public void init() {
+		setTestService(new TestService());
+//		persons = testService.getAllPersons();
+		person = testService.getPersonById(1);
+	//	addresses = person.getAddresses();
+	}
+
+	public PersonModel getPerson() {
+		return person;
+	}
+
+	public void setPerson(PersonModel person) {
+		this.person = person;
+	}
+
+	public List<PersonModel> getPersons() {
+		return persons;
+	}
+
+	public List<AddressModel> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressModel> addresses) {
+		this.addresses = addresses;
+	}
+
+	public void setTestService(TestService testService) {
+		this.testService = testService;
+	}
+}

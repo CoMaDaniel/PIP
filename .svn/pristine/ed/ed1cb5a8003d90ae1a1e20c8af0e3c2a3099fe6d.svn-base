@@ -1,0 +1,217 @@
+package org.yonder.service;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.yonder.entity.Address;
+import org.yonder.entity.Person;
+import org.yonder.utils.HibernateUtils;
+
+public class PersonServiceImpl implements PersonService {
+
+	private Session currentSession;
+
+	private Transaction currentTransaction;
+
+	public PersonServiceImpl() {
+
+	}
+
+	@Override
+	public void addPerson(Person person) {
+		Transaction transaction = null;
+		Session session = openCurrentSession();
+		try {
+			transaction = session.beginTransaction();
+			session.save(person);
+			session.getTransaction().commit();
+		} catch (RuntimeException e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+	}
+
+	@Override
+	public void deletePerson(int personId) {
+		Transaction transaction = null;
+		Session session = openCurrentSession();
+		try {
+			transaction = session.beginTransaction();
+			Person person = (Person) session.load(Person.class, new Integer(personId));
+			session.delete(person);
+			session.getTransaction().commit();
+		} catch (RuntimeException e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+	}
+
+	@Override
+	public void updatePerson(Person person) {
+		Transaction transaction = null;
+		Session session = openCurrentSession();
+		try {
+			transaction = session.beginTransaction();
+			session.update(person);
+			session.getTransaction().commit();
+		} catch (RuntimeException e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Person> getAllPersons() {
+		List<Person> persons = new ArrayList<Person>();
+		Transaction transaction = null;
+		Session session = openCurrentSession();
+		try {
+			transaction = session.beginTransaction();
+			persons = session.createQuery("from Person p").list();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return persons;
+	}
+
+	@Override
+	public Person getPersonById(int personId) {
+		Person person = null;
+		Transaction transaction = null;
+		Session session = openCurrentSession();
+		try {
+			transaction = session.beginTransaction();
+			String queryString = "from Person where id = :id";
+			Query query = session.createQuery(queryString);
+			query.setInteger("id", personId);
+			person = (Person) query.uniqueResult();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return person;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Person getPersonByName(String personName) {
+
+		Query query = openCurrentSession().createQuery("select p from Person p where p.name= :personName");
+		query.setParameter("personName", personName);
+		List<Person> persons = query.list();
+		if (persons != null && persons.size() >= 1) {
+			return persons.get(0);
+		} else {
+			return null;
+		}
+
+	}
+	
+
+//	@Override
+//	public Set<Address> getPersonAddresses(int personId) {
+//		Person person = null;
+//		Set<Address> addresses = new HashSet<Address>();
+//		Transaction transaction = null;
+//		Session session = openCurrentSession();
+//		try {
+//			transaction = session.beginTransaction();
+//			String queryString = "from Person where id = :id";
+//			Query query = session.createQuery(queryString);
+//			query.setInteger("id", personId);
+//			person = (Person) query.uniqueResult();
+//			addresses = person.getAddresses();
+//		} catch (RuntimeException e) {
+//			e.printStackTrace();
+//		} finally {
+//			session.flush();
+//			session.close();
+//		}
+//		return addresses;
+//	}
+
+	public Session openCurrentSession() {
+
+		if (currentSession == null) {
+			currentSession = HibernateUtils.getSessionFactory().openSession();
+		}
+		return currentSession;
+
+	}
+
+	public Session openCurrentSessionwithTransaction() {
+
+		if (currentSession == null) {
+			currentSession = HibernateUtils.getSessionFactory().openSession();
+		}
+		currentTransaction = currentSession.beginTransaction();
+
+		return currentSession;
+
+	}
+
+	public void closeCurrentSession() {
+
+		currentSession.close();
+
+	}
+
+	public void closeCurrentSessionwithTransaction() {
+
+		currentTransaction.commit();
+		currentSession.close();
+
+	}
+
+	public Session getCurrentSession() {
+
+		return currentSession;
+
+	}
+
+	public void setCurrentSession(Session currentSession) {
+
+		this.currentSession = currentSession;
+
+	}
+
+	public Transaction getCurrentTransaction() {
+
+		return currentTransaction;
+
+	}
+
+	public void setCurrentTransaction(Transaction currentTransaction) {
+
+		this.currentTransaction = currentTransaction;
+
+	}
+
+}

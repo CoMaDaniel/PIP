@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+    <persistence-unit name="pip-persistence" transaction-type="RESOURCE_LOCAL">
+        <class>org.yonder.entity.Person</class>
+        <class>org.yonder.entity.Address</class>
+        <class>org.yonder.entity.User</class>
+        <properties>
+        
+        <property name="hibernate.connection.datasource" value="java:/pip_db"/> 
+        
+<!--             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/> -->
+<!-- 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/> -->
+ <!-- 			<property name="hibernate.connection.datasource" value="java:comp/env/jdbc/pip_db"/>  --> 
+			
+<!-- 			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/pip_db"/> -->
+<!-- 			<property name="hibernate.connection.username" value="root"/> -->
+<!-- 			<property name="hibernate.connection.password" value="pass"/> -->
+<!-- 			<property name="show_sql" value="true"/> -->
+			
+<!-- 			<property name="hibernate.current_session_context_class" value="thread"/> -->
+<!--              <property name="hibernate.connection.pool_size" value="1"/> --> 
+<!--             <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/> -->
+        </properties>
+    </persistence-unit>
+</persistence>

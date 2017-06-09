@@ -1,0 +1,62 @@
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.yonder.entity.Address;
+import org.yonder.entity.Person;
+import org.yonder.service.PersonServiceImpl;
+
+public class DBAccessTest {
+
+	private SessionFactory sessionFactory;
+	private Session session;
+	PersonServiceImpl personService;
+
+
+//	private SessionFactory createSessionFactory() {
+//
+//		Configuration configuration = new Configuration();
+//
+//		configuration.addAnnotatedClass(Person.class).addAnnotatedClass(Address.class);
+//		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/pip_db");
+//		configuration.setProperty("hibernate.connection.username", "root");
+//		configuration.setProperty("hibernate.connection.password", "pass");
+//		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+//		configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
+//		configuration.setProperty("hibernate.hbm2ddl.auto", "update");
+//		configuration.setProperty("hibernate.show.sql", "false");
+//		SessionFactory sessionFactory = configuration.buildSessionFactory();
+//		return sessionFactory;
+//	}
+	
+//	@Before
+//	public void before() {
+//		sessionFactory = createSessionFactory();
+//		session = sessionFactory.openSession();
+//		Transaction transaction = session.beginTransaction();
+//	}
+
+	@Test
+	public void testGetPersonByName() {
+		
+		Person person = personService.getPersonByName("Daniel");
+		
+		Assert.assertEquals("Padawan", person.getOccupation());
+		
+	}
+//
+//	@After
+//	public void after() {
+//		session.close();
+//		sessionFactory.close();
+//	}
+
+	//NamedQuery
+	//EJB/Spring pip-business
+
+	
+}

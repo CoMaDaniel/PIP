@@ -1,0 +1,66 @@
+package org.yonder.model;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+
+public class PersonModel implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public int id;
+
+	public int age;
+	
+	public String name;
+	
+	public String occupation;
+	
+	public List<AddressModel> addresses;
+	
+	/* Getters and setters */
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
+	public List<AddressModel> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressModel> addresses) {
+		this.addresses = addresses;
+	}
+	
+}

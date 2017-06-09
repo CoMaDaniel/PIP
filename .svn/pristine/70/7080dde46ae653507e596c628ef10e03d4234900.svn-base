@@ -1,0 +1,132 @@
+package org.yonder.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.yonder.entity.Address;
+import org.yonder.entity.Person;
+
+public class AddressServiceImpl implements AddressService {
+
+	
+	
+	@Override
+	public void addAddress(Address address) {
+//		Transaction transaction = null;
+//		Session session = openCurrentSession();
+//		try {
+//			transaction = session.beginTransaction();
+//			session.save(address);
+//			session.getTransaction().commit();
+//		} catch (RuntimeException e) {
+//			if (transaction != null) {
+//				transaction.rollback();
+//			}
+//			e.printStackTrace();
+//		} finally {
+//			session.flush();
+//			session.close();
+//		}
+
+	}
+
+	@Override
+	public void deleteAddress(int addressId) {
+//		Transaction transaction = null;
+//		Session session = openCurrentSession();
+//		try {
+//			transaction = session.beginTransaction();
+//			Address address = (Address) session.load(Address.class, new Integer(addressId));
+//			session.delete(address);
+//			session.getTransaction().commit();
+//		} catch (RuntimeException e) {
+//			if (transaction != null) {
+//				transaction.rollback();
+//			}
+//			e.printStackTrace();
+//		} finally {
+//			session.flush();
+//			session.close();
+//		}
+
+	}
+
+	@Override
+	public void updateAddress(Address address) {
+//		Transaction transaction = null;
+//		Session session = openCurrentSession();
+//		try {
+//			transaction = session.beginTransaction();
+//			session.update(address);
+//			session.getTransaction().commit();
+//		} catch (RuntimeException e) {
+//			if (transaction != null) {
+//				transaction.rollback();
+//			}
+//			e.printStackTrace();
+//		} finally {
+//			session.flush();
+//			session.close();
+//		}
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Address> getAllAddresses() {
+//		List<Address> addresses = new ArrayList<Address>();
+//		Transaction transaction = null;
+//		Session session = openCurrentSession();
+//		try {
+//			transaction = session.beginTransaction();
+//			addresses = session.createQuery("from Address").list();
+//		} catch (RuntimeException e) {
+//			e.printStackTrace();
+//		} finally {
+//			session.flush();
+//			session.close();
+//		}
+//		return addresses;
+		return null;
+	}
+
+	@Override
+	public Address getAddressById(int addressId) {
+//		Address address = null;
+//		Transaction transaction = null;
+//		Session session = openCurrentSession();
+//		try {
+//			transaction = session.beginTransaction();
+//			String queryString = "from Address where id = :id";
+//			Query query = session.createQuery(queryString);
+//			query.setInteger("id", addressId);
+//			address = (Address) query.uniqueResult();
+//		} catch (RuntimeException e) {
+//			e.printStackTrace();
+//		} finally {
+//			session.flush();
+//			session.close();
+//		}
+//		return address;
+		return null;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Address> getAddressByCity(String cityName) {
+//		
+//		
+//		Query query = openCurrentSession().createQuery("select a from Address a where a.city= :cityName");
+//		query.setParameter("cityName", cityName);
+//		List<Address> addresses = (List<Address>)query.list();
+//		if (addresses != null && addresses.size() >= 1) {
+//			return addresses;
+//		} else {
+//			return null;
+//		}
+		return null;
+	}
+
+}

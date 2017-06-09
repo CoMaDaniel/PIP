@@ -1,0 +1,58 @@
+package org.yonder.service;
+
+import java.util.List;
+import java.util.Set;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.yonder.entity.Address;
+import org.yonder.entity.Person;
+import org.yonder.utils.HibernateUtils;
+
+public class PersonServiceImpl implements PersonService {
+
+	private Session currentSession;
+
+	private Transaction currentTransaction;
+
+	public PersonServiceImpl() {
+
+	}
+
+	
+	//Replaced with HibernateUtils.getSessionFactory()
+//	private static SessionFactory getSessionFactory() {
+//
+//		Configuration configuration = new Configuration().configure();
+//		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+//		SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
+//		
+//		return sessionFactory;
+//		
+//	}
+
+	
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Person getPersonByName(String personName) {
+	
+		Query query = getCurrentSession().createQuery("select p FROM Person p where p.name= :personName");
+		 query.setParameter("personName", personName);
+		List<Person> persons = query.list();
+		if (persons != null && persons.size() >= 1) {
+			return persons.get(0);
+		} else {
+			return null;
+		}
+
+	}
+
+	@Override
+	public Set<Address> getPersonAddresses(int personId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

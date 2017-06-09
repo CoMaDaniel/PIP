@@ -1,0 +1,77 @@
+package org.yonder.entity;
+
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+@Entity
+@Table(name = "address", uniqueConstraints={@UniqueConstraint(columnNames={"ID"})})
+public class Address {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID", nullable = false, unique = true, length = 10)
+	private int id;
+	
+	@Column(name = "STREET_NAME", length = 20, nullable = true)
+	private String streetName;
+
+	@Column(name = "STREET_NO", nullable = true)
+	private int streetNumber;
+	
+	@Column(name="CITY", length = 20, nullable = true)
+	private String city;
+	
+//	@ManyToMany (mappedBy = "addresses")
+//	private Set<Person> persons;
+	
+	/* Getters and setters */
+	
+//	public Set<Person> getPersons() {
+//		return persons;
+//	}
+//	
+//	public void setPersons(Set<Person> persons) {
+//		this.persons = persons;
+//	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getStreetName() {
+		return streetName;
+	}
+
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
+	}
+
+	public int getStreetNumber() {
+		return streetNumber;
+	}
+
+	public void setStreetNumber(int streetNumber) {
+		this.streetNumber = streetNumber;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+}

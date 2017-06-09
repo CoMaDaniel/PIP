@@ -1,0 +1,87 @@
+package org.yonder.view;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+
+import org.primefaces.context.RequestContext;
+import org.yonder.model.AddressModel;
+import org.yonder.model.PersonModel;
+import org.yonder.model.TestService;
+
+@ManagedBean(name = "personView")
+@ViewScoped
+public class PersonView implements Serializable{
+
+	private List<PersonModel> persons;
+	private List<AddressModel> addresses;
+	private PersonModel person = new PersonModel();
+	private PersonModel selectedPerson;
+
+	@ManagedProperty("#{personTestService}")
+	private TestService testService;
+
+	@PostConstruct
+	public void init() {
+		//Linie in plus
+		setTestService(new TestService());
+		persons = testService.getAllPersons();
+	}
+	
+	public void addPerson() {
+		testService.savePerson(person);
+		persons.add(person);
+		person = new PersonModel();
+	}
+	
+	public void deletePerson() {
+		int personId = Integer.parseInt(selectedPerson.getId());
+		testService.deletePerson(personId);
+		persons.remove(selectedPerson);
+		person = new PersonModel();
+	}
+	
+	public void updatePerson() {
+		int personId = Integer.parseInt(selectedPerson.getId());
+		testService.updatePerson(personId);
+		persons = testService.getAllPersons();
+	}
+
+	public PersonModel getPerson() {
+		return person;
+	}
+
+	public void setPerson(PersonModel person) {
+		this.person = person;
+	}
+
+	public List<PersonModel> getPersons() {
+		return persons;
+	}
+
+	public List<AddressModel> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressModel> addresses) {
+		this.addresses = addresses;
+	}
+
+	public void setTestService(TestService testService) {
+		this.testService = testService;
+	}
+
+	public PersonModel getSelectedPerson() {
+		return selectedPerson;
+	}
+
+	public void setSelectedPerson(PersonModel selectedPerson) {
+		this.selectedPerson = selectedPerson;
+	}
+}

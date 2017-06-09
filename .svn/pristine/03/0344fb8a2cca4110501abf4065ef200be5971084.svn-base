@@ -1,0 +1,108 @@
+package org.yonder.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import org.yonder.entity.Address;
+import org.yonder.entity.Person;
+import org.yonder.utils.EntityManagerUtil;
+
+public class AddressServiceImpl implements AddressService {
+
+	EntityManager entityManager;
+	
+	public AddressServiceImpl() {
+		if (entityManager == null) {
+			entityManager = EntityManagerUtil.getEntityManager();
+		}
+	}
+	
+	@Override
+	public void addAddress(Address address) {
+
+		try {
+			entityManager.getTransaction().begin();
+			entityManager.persist(address);
+			entityManager.getTransaction().commit();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void deleteAddress(int addressId) {
+		try {
+			entityManager.getTransaction().begin();
+			Address address = (Address) entityManager.find(Address.class, addressId);
+			entityManager.remove(address);
+			entityManager.getTransaction().commit();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void updateAddress(Address address) {
+		try {
+			entityManager.getTransaction().begin();
+			entityManager.merge(address);
+			entityManager.getTransaction().commit();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Address> getAllAddresses() {
+		List<Address> addresses = new ArrayList<Address>();
+		try {
+			entityManager.getTransaction().begin();
+			addresses = entityManager.createQuery("from Address a").getResultList();
+			entityManager.getTransaction().commit();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+		return addresses;
+	}
+
+	@Override
+	public Address getAddressById(int addressId) {
+		Address address = null;
+		try {
+			entityManager.getTransaction().begin();
+			address = (Address) entityManager.find(Address.class, addressId);
+			entityManager.getTransaction().commit();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+		return address;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Address> getAddressByCity(String cityName) {
+		List<Address> addresses = new ArrayList<Address>();
+		try {
+			entityManager.getTransaction().begin();
+			Query query = entityManager.createQuery("select a from Address a where a.city= :cityName");
+			query.setParameter("cityName", cityName);
+			entityManager.getTransaction().commit();
+			addresses = query.getResultList();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+
+		if (addresses != null && addresses.size() >= 1) {
+			return addresses;
+		} else {
+			return null;
+		}
+	}
+
+}

@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="updatePersonPanel">
+		<p:dialog header="UpdatePerson" widgetVar="updatePersonDialog"
+			resizable="false">
+
+			<h:panelGrid columns="2" cellpadding="5" var="selectedPerson"
+				value="#{selectedPerson}">
+				<p:outputLabel for="personName" value="Person Name:" />
+				<p:inputText id="personName" value="#{selectedPerson.name}" />
+
+				<p:outputLabel value="Person Age:" />
+				<p:inputText id="personAge" value="#{selectedPerson.age}" />
+
+				<p:outputLabel value="Person Occupation:" />
+				<p:inputText id="personOccupation"
+					value="#{selectedPerson.occupation}" />
+
+				<f:facet name="footer">
+					<p:commandButton id="savePersonButton" value="Save Person"
+						update="personPanel" action="#{personView.updatePerson}"
+						onsuccess="PF('updatePersonDialog').hide();">
+						<p:ajax immediate="true"
+							render="personName personAge personOccupation" execute="@form" />
+					</p:commandButton>
+					<p:commandButton value="Delete Person"
+						action="#{personView.deletePerson}">
+						<p:ajax render="personName personAge personOccupation"
+							execute="@form" />
+					</p:commandButton>
+				</f:facet>
+			</h:panelGrid>
+
+		</p:dialog>
+	</h:form>
+
+</ui:composition>

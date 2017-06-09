@@ -1,0 +1,107 @@
+package org.yonder.view;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.event.SelectEvent;
+import org.yonder.model.AddressModel;
+import org.yonder.model.PersonModel;
+import org.yonder.services.TestService;
+
+@ManagedBean(name = "personView")
+@ViewScoped
+public class PersonView {
+
+	private List<PersonModel> persons;
+	@ManagedProperty("#{address}")
+	private AddressModel address;
+	private List<AddressModel> addresses;
+	@ManagedProperty("#{person}")
+	private PersonModel person;
+	private PersonModel selectedPerson;
+
+	@ManagedProperty("#{testService}")
+	private TestService testService;
+
+	@PostConstruct
+	public void init() {
+	}
+	
+	public void addPerson() {
+		List<AddressModel> tempAddress = new ArrayList<AddressModel>();
+		tempAddress.add(address);
+		PersonModel tempPerson = person;
+		tempPerson.setAddresses(tempAddress);
+		System.out.println("Nume: " + tempPerson.getName());
+		System.out.println("Varsta: " + tempPerson.getAge());
+		System.out.println("Ocupatie: " + tempPerson.getOccupation());
+		System.out.println("Adresa: " + tempPerson.getAddresses().get(0).getStreetName() + " " + tempPerson.getAddresses().get(0).getStreetNumber() + " " + tempPerson.getAddresses().get(0).getCity());
+		testService.savePerson(tempPerson);
+
+	}
+	
+	public void deletePerson() {
+		
+		int personId = Integer.parseInt(person.getId());
+		testService.deletePerson(personId);
+	}
+	
+	public void updatePerson() {
+		testService.updatePerson(person);
+	}
+
+	public PersonModel getPerson() {
+		return person;
+	}
+
+	public void setPerson(PersonModel person) {
+		this.person = person;
+	}
+
+	public List<PersonModel> getPersons() {
+		return testService.getAllPersons();
+	}
+
+	public AddressModel getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressModel address) {
+		this.address = address;
+	}
+
+	public List<AddressModel> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressModel> addresses) {
+		this.addresses = addresses;
+	}
+
+	public void setTestService(TestService testService) {
+		this.testService = testService;
+	}
+
+	public PersonModel getSelectedPerson() {
+		return selectedPerson;
+	}
+
+	public void setSelectedPerson(PersonModel selectedPerson) {
+		this.selectedPerson = selectedPerson;
+	}
+	
+	public void onRowSelect(SelectEvent event) {
+        FacesMessage msg = new FacesMessage("Person Selected", ((PersonModel) event.getObject()).getId());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        selectedPerson = (PersonModel) event.getObject();
+        person = selectedPerson;
+    }
+	
+}

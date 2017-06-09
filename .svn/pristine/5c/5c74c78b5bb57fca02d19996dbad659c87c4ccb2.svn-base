@@ -1,0 +1,14 @@
+package org.yonder.service;
+
+import java.util.Set;
+
+import org.yonder.entity.Address;
+import org.yonder.entity.Person;
+
+public interface PersonService {
+	
+	public Person getPersonByName (String personName);
+	
+	public Set<Address> getPersonAddresses (int personId);
+
+}
